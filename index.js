@@ -21,7 +21,7 @@ function handleCreate(e) {
   console.log({handleCreate: e.data})
   if (e.data) {
     let data = JSON.parse(e.data)
-    if (data.flags.joinAllowed && !data.flags.passwordNeeded) {
+    if (data.flags.joinAllowed && !data.flags.passwordNeeded && data.maxPlayers > 1) {
       bot.say(config.channels[0], `${data.host} just opened a round of ${data.title}. Join now!`)
     }
   }

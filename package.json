@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "babel-watch --presets es2015 index.js"
+    "start": "babel-watch -L --presets es2015 index.js"
   },
   "author": "",
   "license": "ISC",

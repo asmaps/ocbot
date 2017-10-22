@@ -6,16 +6,15 @@ let config = {
 	server: "irc.hes.de.euirc.net",
 	botName: "NativeBot"
 }
-
+let es = null
 let bot = new irc.Client(config.server, config.botName, {
 	channels: config.channels
 })
 
 bot.addListener('error', function(message) {
-    console.log('error: ', message);
+    console.log('IRC error: ', message);
 });
 
-let evtSource = new EventSource('http://league.openclonk.org/poll_game_events.php')
 
 function handleCreate(e) {
   console.log({handleCreate: e.data})
@@ -27,6 +26,28 @@ function handleCreate(e) {
   }
 }
 
-evtSource.addEventListener('create', handleCreate)
+function connectEventSource() {
+  if (es && es.readyState === es.OPEN) {
+    console.log('closing old connection')
+    es.close()
+  }
 
+  console.log('connecting to game events...')
+  es = new EventSource('http://league.openclonk.org/poll_game_events.php')
+  es.addEventListener('create', handleCreate)
+  es.onerror = function (err) {
+    console.log({error: err, readyState: es.readyState})
+    if (es.readyState !== es.CONNECTING) {
+      console.log('Reconnecting')
+      setTimeout(connectEventSource, 2000)
+    }
+  }
+  es.onopen = (e) => console.log({open: e, readyState: es.readyState})
+  es.onclose = (e) => {
+    console.log({closed: e})
+    connectEventSource()
+  }
+}
+
+connectEventSource()
 console.log('Startup complete')

@@ -36,13 +36,12 @@ function connectEventSource() {
   es = new EventSource('http://league.openclonk.org/poll_game_events.php')
   es.addEventListener('create', handleCreate)
   es.onerror = function (err) {
-    console.log({error: err, readyState: es.readyState})
     if (es.readyState !== es.CONNECTING) {
+      console.log({error: err, readyState: es.readyState})
       console.log('Reconnecting')
       setTimeout(connectEventSource, 2000)
     }
   }
-  es.onopen = (e) => console.log({open: e, readyState: es.readyState})
   es.onclose = (e) => {
     console.log({closed: e})
     connectEventSource()

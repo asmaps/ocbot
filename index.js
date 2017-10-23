@@ -21,7 +21,7 @@ function handleCreate(e) {
   if (e.data) {
     let data = JSON.parse(e.data)
     if (data.flags.joinAllowed && !data.flags.passwordNeeded && data.maxPlayers > 1) {
-      bot.say(config.channels[0], `Eine neue Runde ${data.title} beginnt. ${data.host} wartet auf dich!`)
+      bot.say(config.channels[0], `Eine neue ${data.type === 'noleague' ? '': 'Liga-'}Runde ${data.title} beginnt. ${data.host} wartet auf dich!`)
     }
   }
 }

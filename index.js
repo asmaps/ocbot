@@ -3,7 +3,7 @@ import EventSource from 'eventsource'
 
 let config = {
 	channels: ["#openclonk", ],
-	server: "irc.hes.de.euirc.net",
+	server: "irc.euirc.net",
 	botName: "NativeBot"
 }
 let es = null
@@ -21,7 +21,7 @@ function handleCreate(e) {
   if (e.data) {
     let data = JSON.parse(e.data)
     if (!data.flags.passwordNeeded && data.maxPlayers > 1) {
-      bot.say(config.channels[0], `Eine neue ${data.type === 'noleague' ? '': 'Liga-'}Runde ${data.title} beginnt. ${data.host} wartet auf dich!`)
+      bot.notice(config.channels[0], `Eine neue ${data.type === 'noleague' ? '': 'Liga-'}Runde ${data.title} beginnt. ${data.host} wartet auf dich!`)
     }
   }
 }

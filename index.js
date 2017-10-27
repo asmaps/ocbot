@@ -21,7 +21,10 @@ function handleCreate(e) {
   if (e.data) {
     let data = JSON.parse(e.data)
     if (!data.flags.passwordNeeded && data.maxPlayers > 1) {
-      bot.notice(config.channels[0], `Eine neue ${data.type === 'noleague' ? '': 'Liga-'}Runde ${data.title} beginnt. ${data.host} wartet auf dich!`)
+      bot.notice(
+        config.channels[0],
+        `Eine neue ${data.type === 'noleague' ? '': 'Liga-'}Runde ${data.title} beginnt. ${data.host} wartet auf dich! openclonk://league.openclonk.org:80/league.php?action=query&game_id=#${data.id}`
+      )
     }
   }
 }
